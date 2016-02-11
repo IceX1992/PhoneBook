@@ -73,17 +73,16 @@ public class MainActivity extends AppCompatActivity {
 
         EditText number = (EditText) findViewById(R.id.number);
         String numberValue = String.valueOf(number.getText());
-        Integer numberValue2 = Integer.parseInt(numberValue);
+        Integer numberValue2 = numberValue.isEmpty() ? -1 : Integer.parseInt(numberValue);
 
         if (!nameValue.isEmpty() && !numberValue.isEmpty()){
-
             //insert relevant data
-            ContentValues contentValues = new ContentValues();
-
-
-            db.insertContact(nameValue, numberValue2);
-            notification = "Data inserted";
-    //        Toast.makeText(this, notification, Toast.LENGTH_LONG).show();
+            ContentValues contact = new ContentValues();
+            contact.put(PhoneBookDatabase.PB_NAAM,nameValue);
+            contact.put(PhoneBookDatabase.PB_NUMBER, numberValue2);
+            long recordId = db.insertContact(nameValue, contact);
+            notification = recordId > 0 ? "Data inserted" : "No data inserted";
+            Toast.makeText(this, notification, Toast.LENGTH_LONG).show();
 
         }else{
             notification = "Please insert name and number";
@@ -131,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
         EditText number = (EditText) findViewById(R.id.number);
         String numberValue = String.valueOf(number.getText());
-        Integer numberValue2 = Integer.parseInt(numberValue);
+        Integer numberValue2 = numberValue.isEmpty() ? -1: Integer.parseInt(numberValue);
 
         PhoneBook phonebook1 = null;
 
@@ -143,7 +142,12 @@ public class MainActivity extends AppCompatActivity {
             number3.setText(numberText);
 
         }else if (!numberValue.isEmpty()){
-            //search db for relevant number
+            //search db for relevant number   findContactViaNumber
+            db.findContactViaNumber(numberValue2);
+            EditText naam = (EditText) findViewById(R.id.naam);
+            String naamText = String.format(PhoneBook.getNaam());
+            naam.setText(naamText);
+
 
         }else{
             //notification

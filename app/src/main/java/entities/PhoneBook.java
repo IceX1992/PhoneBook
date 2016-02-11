@@ -8,7 +8,7 @@ public class PhoneBook {
 
 
     private long id;
-    private String naam;
+    private static String naam;
     public static String telefoonNummer;
 
     public PhoneBook (long id, String naam, String telefoonNummer){
@@ -21,7 +21,7 @@ public class PhoneBook {
         return id;
     }
 
-    public String getNaam() {
+    public static String getNaam() {
         return naam;
     }
 
