@@ -71,10 +71,20 @@ public class PhoneBookDatabase extends SQLiteOpenHelper {
         return rowId;
     }
 
-    public void updateContact (SQLiteDatabase db, String name, Integer phoneNumber){
+    public void updateContact ( String name, Integer phoneNumber){
 
     }
 
+    public PhoneBook  deleteContact(String name, Integer phoneNumber){
+        PhoneBook phonebook = null;
+        SQLiteDatabase db = getWritableDatabase();
+        String whereClause = String.format("%s = ? OR %s = ?", PB_NAAM, PB_NUMBER);
+        String[] whereArgs = {name, String.valueOf(phoneNumber)};
+
+        //db.delete(PB_TABLE,"naam = %s", new String[]{name});
+        return phonebook;
+
+    }
 
     public PhoneBook findContactViaName(String name) {
         PhoneBook phonebook = null;
@@ -108,3 +118,4 @@ public class PhoneBookDatabase extends SQLiteOpenHelper {
 
 
 }
+
