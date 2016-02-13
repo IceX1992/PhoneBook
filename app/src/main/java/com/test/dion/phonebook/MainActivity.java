@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    String notification = "";
+    String notification = "hallo";
 
     public void insertData(View view) {
         EditText name = (EditText) findViewById(R.id.naam);
@@ -116,6 +116,8 @@ public class MainActivity extends AppCompatActivity {
         Integer numberValue2 = Integer.parseInt(numberValue);
 
         if (!nameValue.isEmpty() && !numberValue.isEmpty()){
+            db.deleteContact(nameValue, numberValue2);
+
             //delete relevant data
             notification = "Data deleted";
         }else{
