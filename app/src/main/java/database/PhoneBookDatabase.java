@@ -27,13 +27,14 @@ public class PhoneBookDatabase extends SQLiteOpenHelper {
 
 
     public PhoneBookDatabase(Context context){
-        super(context, DB_PHONEBOOK ,null, DB_VERSION);
-        insertDefaultData();
+        super(context, DB_PHONEBOOK, null, DB_VERSION);
+
     }
 
     @Override
     public void onCreate (SQLiteDatabase db){
         db.execSQL(SQL_PB_TABLE_QUERY);
+        insertDefaultData();
     }
 
     private void insertDefaultData() {
@@ -75,15 +76,13 @@ public class PhoneBookDatabase extends SQLiteOpenHelper {
 
     }
 
-    public PhoneBook  deleteContact(String name, Integer phoneNumber){
-        PhoneBook phonebook = null;
+    public int deleteContact(String name, Integer phoneNumber){
         SQLiteDatabase db = getWritableDatabase();
-        String whereClause = String.format("%s = ? OR %s = ?", PB_NAAM, PB_NUMBER);
+        int effectedRows = 0;
+        String whereClause = String.format("%s = ? AND %s = ?", PB_NAAM, PB_NUMBER);
         String[] whereArgs = {name, String.valueOf(phoneNumber)};
-
-        //db.delete(PB_TABLE,"naam = %s", new String[]{name});
-        return phonebook;
-
+        effectedRows = db.delete(PB_TABLE, whereClause, whereArgs);
+        return effectedRows;
     }
 
     public PhoneBook findContactViaName(String name) {

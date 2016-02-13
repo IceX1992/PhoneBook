@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    String notification = "hallo";
+    String notification = "";
 
     public void insertData(View view) {
         EditText name = (EditText) findViewById(R.id.naam);
@@ -115,13 +115,11 @@ public class MainActivity extends AppCompatActivity {
         String numberValue = String.valueOf(number.getText());
         Integer numberValue2 = Integer.parseInt(numberValue);
 
+        int effectedRecords = 0;
+        String notification = "Please insert name and number";
         if (!nameValue.isEmpty() && !numberValue.isEmpty()){
-            db.deleteContact(nameValue, numberValue2);
-
-            //delete relevant data
-            notification = "Data deleted";
-        }else{
-            notification = "Please insert name and number";
+            effectedRecords = db.deleteContact(nameValue, numberValue2);
+            notification = effectedRecords > 0 ? "Data deleted" : "Data not deleted";
         }
         Toast.makeText(this,notification, Toast.LENGTH_LONG).show();
     }
@@ -140,7 +138,13 @@ public class MainActivity extends AppCompatActivity {
             //search db for relevant name
             db.findContactViaName(nameValue);
             EditText number3 = (EditText) findViewById(R.id.number);
-            String numberText = String.format(PhoneBook.getTelefoonNummer());
+            String numberText = "";
+            if (PhoneBook.getTelefoonNummer() != null ){
+                numberText = String.format(PhoneBook.getTelefoonNummer());
+            }else {
+                String notification = "Niets gevonden";
+                Toast.makeText(this,notification,Toast.LENGTH_LONG).show();
+            }
             number3.setText(numberText);
 
         }else if (!numberValue.isEmpty()){
